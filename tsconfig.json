@@ -13,13 +13,21 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+
+      // TypeORM-related
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@lib/*": ["./lib/*"],
+      "@entity/*" : ["./entity/*"],
+      "@dto/*" : ["./dto/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
