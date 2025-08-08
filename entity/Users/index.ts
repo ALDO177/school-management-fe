@@ -2,7 +2,7 @@ import { hash } from "bcrypt";
 import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 export enum UserRole {
-    ADMIN = "admin",
+    ADMIN   = "admin",
     STUDENT = "student",
     TEACHER = "teacher"
 }
@@ -41,6 +41,18 @@ export default class User {
 
     @Column({ type: 'date', default: null })
     last_login !: Date | number | string;
+
+    @Column({ type: "int", default: null })
+    student_id !: number;
+
+    @Column({ type: "int", default: null })
+    home_room_teacher_id !: number;
+
+    @Column({ type: "int", default: null })
+    home_room_assigment !: number;
+
+    @Column({ type: "int", default: null })
+    guidence_conselors_id !: number;
 
     @UpdateDateColumn({ name: "updated_at" })
     updatedAt !: Date | string;

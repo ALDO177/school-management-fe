@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { NextRequest, NextResponse } from "next/server";
 import { AppDataSource } from "@lib/db";
 import { UserCreateDto } from "@dto/user/create.dto";

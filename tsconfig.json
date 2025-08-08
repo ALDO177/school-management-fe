@@ -27,9 +27,13 @@
       "@/*": ["./src/*"],
       "@lib/*": ["./lib/*"],
       "@entity/*" : ["./entity/*"],
-      "@dto/*" : ["./dto/*"]
+      "@dto/*" : ["./dto/*"],
+      "@components/*" : ["./components/*"],
+      "@layouts/*" : ["./layouts/*"],
+      "@forwards/*": ["./forwards/*"],
+      "@directive/*" : ["./directive/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "tailwind.config.js"],
   "exclude": ["node_modules"]
 }

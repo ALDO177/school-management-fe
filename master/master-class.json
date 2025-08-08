@@ -1,0 +1,28 @@
+[
+  { "class_name": "10-A", "level": "10", "img_url": null },
+  { "class_name": "10-B", "level": "10", "img_url": null },
+  { "class_name": "10-C", "level": "10", "img_url": null },
+  { "class_name": "10-D", "level": "10", "img_url": null },
+  { "class_name": "10-E", "level": "10", "img_url": null },
+  { "class_name": "10-F", "level": "10", "img_url": null },
+  { "class_name": "10-G", "level": "10", "img_url": null },
+  { "class_name": "10-H", "level": "10", "img_url": null },
+
+  { "class_name": "11-A", "level": "11", "img_url": null },
+  { "class_name": "11-B", "level": "11", "img_url": null },
+  { "class_name": "11-C", "level": "11", "img_url": null },
+  { "class_name": "11-D", "level": "11", "img_url": null },
+  { "class_name": "11-E", "level": "11", "img_url": null },
+  { "class_name": "11-F", "level": "11", "img_url": null },
+  { "class_name": "11-G", "level": "11", "img_url": null },
+  { "class_name": "11-H", "level": "11", "img_url": null },
+
+  { "class_name": "12-A", "level": "12", "img_url": null },
+  { "class_name": "12-B", "level": "12", "img_url": null },
+  { "class_name": "12-C", "level": "12", "img_url": null },
+  { "class_name": "12-D", "level": "12", "img_url": null },
+  { "class_name": "12-E", "level": "12", "img_url": null },
+  { "class_name": "12-F", "level": "12", "img_url": null },
+  { "class_name": "12-G", "level": "12", "img_url": null },
+  { "class_name": "12-H", "level": "12", "img_url": null }
+]
