@@ -40,7 +40,7 @@ const Card: React.FC<PropsCard> = ({ children, className, headerTemplate, bodyCl
 
         if (footerTemplate || typeof footerTemplate === "function") {
             return (
-                <div className="border-t px-4 py-4">
+                <div className="border-t border-t-gray-300 px-4 py-4">
                     {footerTemplate()}
                 </div>
             )

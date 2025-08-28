@@ -2,7 +2,6 @@
 import classNames from 'classnames';
 import Select, { Props as ReactSelectProps, ClassNamesConfig, StylesConfig } from 'react-select'
 
-
 export interface SelectOptionProps extends ReactSelectProps {
     sizeMode ?: "md" | "sm" | "lg"
 };

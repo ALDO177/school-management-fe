@@ -8,6 +8,31 @@
     display: none;
 }
 
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  @apply fixed top-0 left-0 w-full h-[4px] z-[9999];
+  background: var(--nprogress-color, theme('colors.red.500'));
+}
+
+#nprogress .peg {
+  display: block;
+  position: absolute;
+  right: 0px;
+  width: 100px;
+  height: 100%;
+  box-shadow: 0 0 10px var(--nprogress-color, theme('colors.red.500')),
+    0 0 5px var(--nprogress-color, theme('colors.red.500'));
+  opacity: 1;
+  transform: rotate(3deg) translate(0px, -4px);
+}
+
+#nprogress .spinner {
+  display: none !important;
+}
+
 @layer utilities {
   @keyframes slide-up {
     from {

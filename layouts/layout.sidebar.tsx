@@ -31,19 +31,19 @@ const itemDataSidebar: Array<SidebarProps> = [
         id: "4",
         label: "Jadwal Pendamping",
         icon: <FaCalendar size={18} />,
-        to: "#"
+        to: "/mentoring-schedule"
     },
      {
         id: "5",
         label: "Kolaborasi Orang Tua",
         icon: <FaDatabase size={18} />,
-        to: "#"
+        to: "/parent-collaboration"
     },
      {
         id: "3",
         label: "Matrix Hasil Kordinasi",
         icon: <FaChartLine size={18} />,
-        to: "#"
+        to: "/cordination-result-matrix"
     }
 ];
 

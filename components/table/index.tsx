@@ -68,7 +68,7 @@ export function Table<T extends Record<string, any>>({ columns, data, showGridLi
                                         key={idx}
                                         className={`hover:bg-blue-200/20`}>
                                         {columns.map((col) => {
-                                            const value = col.key.toString().split('.').reduce((acc, key) => acc[key], row);
+                                            const value = col.key.toString().split('.').reduce((acc, key) => acc?.[key], row);
                                             return (
                                                 <td key={String(col.key)} className={`px-4 py-5 ${idx < data.length - 1 && showGridLine ? "border-b border-gray-200" : ""}`}>
                                                     {col.render ? col.render(value as any, row) : value as any}

@@ -6,19 +6,17 @@ import React, { useActionState, useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { actionCreateStudent } from "@directive/servers/user-management/student";
 import axios from "axios";
+import useGetClass from "@/hooks/useGetClass";
+import useHomeRoomTeacher from "@/hooks/useHomeRoomTeacher";
 
-interface PropFormStudent{
-    toogleClose : () => void;
-    mutate : () => void;    
+interface PropFormStudent {
+    toogleClose: () => void;
+    mutate: () => void;
     isEdit?: boolean;
     data?: any;
 }
 
 const FormStudent: React.FC<PropFormStudent> = ({ toogleClose, mutate, isEdit = false, data }) => {
-
-    const [selectClass, setSelectedClass] = useState();
-    const [classes, setClasses] = useState<Array<any>>([]);
-    const [isLoadingClass, setIsLoadingClass] = useState<boolean>(false);
 
     const [selecteStatus, setSelectedStatus] = useState();
     const [status, setStatus] = useState<Array<any>>([]);
@@ -32,21 +30,23 @@ const FormStudent: React.FC<PropFormStudent> = ({ toogleClose, mutate, isEdit = 
         })
     };
 
+    //get data classess
+    const [selectClass, setSelectedClass] = useState();
+    const { classes, loadingClass } = useGetClass<any>();
+
+    const [selectHomeRoomTeacher, setSelectHomeRoomTeacher] = useState();
+    const { homeRoomTeacher, loading } = useHomeRoomTeacher<any>();
+
     const [state, formAction, pending] = useActionState<any, FormData>(actionCreateStudent, {
-        nama: data?.student_name ?? "",
+        nama: data?.nama ?? "",
         nisn: data?.nisn ?? "",
-        no_class: data?.no_class ?? "",
+        // no_class: data?.no_class ?? "",
+        no_class_id : data?.no_class_id,
         address: data?.address ?? "",
         phone_number: data?.phone_number ?? "",
-        status: data?.status ?? ""
+        status: data?.status ?? "",
+        home_room_teacher_id: data?.home_room_teacher_id ?? ""
     });
-
-    const getDataClass = useCallback(() => {
-        axios.get('/api/master/classes', { timeout: 300000 }).then((res) => {
-            setClasses(res.data?.data);
-            setIsLoadingClass(false);
-        });
-    }, []);
 
     const getDataStatus = useCallback(() => {
         axios.get('/api/master/status', { params: { select: "true" }, timeout: 300000 }).then((res) => {
@@ -54,11 +54,6 @@ const FormStudent: React.FC<PropFormStudent> = ({ toogleClose, mutate, isEdit = 
             setIsLoadiStatus(false)
         })
     }, [])
-
-    useEffect(() => {
-        setIsLoadingClass(true);
-        getDataClass();
-    }, []);
 
     useEffect(() => {
         setIsLoadiStatus(true);
@@ -77,29 +72,29 @@ const FormStudent: React.FC<PropFormStudent> = ({ toogleClose, mutate, isEdit = 
             })
         }
 
-        if(state?.error === true){
+        if (state?.error === true) {
             toogleClose();
             toast.error("Terjadi Kesalahan Saat Create Data...", { theme: "colored", autoClose: 3000 })
         }
 
-        if(isEdit){
-            setSelectedClass(classes?.find((prev) => prev.value == state?.no_class));
+        if (isEdit) {
+            setSelectedClass(classes?.find((prev) => prev.value == state?.no_class_id));
             setSelectedStatus(status?.find((prev) => prev.value == state?.status));
+            setSelectHomeRoomTeacher(homeRoomTeacher?.find((prev) => prev.value === state?.home_room_teacher_id))
         }
 
     }, [state, isEdit, classes]);
 
-    
     return (
         <React.Fragment>
             <form action={formAction}>
                 <div className="grid grid-cols-1 gap-4">
                     {
                         data?.id && (
-                             <InputText 
-                                type="hidden" 
-                                name="id" 
-                                defaultValue={data?.id}/>
+                            <InputText
+                                type="hidden"
+                                name="id"
+                                defaultValue={data?.id} />
                         )
                     }
                     <div>
@@ -123,13 +118,24 @@ const FormStudent: React.FC<PropFormStudent> = ({ toogleClose, mutate, isEdit = 
                             placeholder="Nama Siswa" />
                     </div>
                     <div>
+                        <span className="block mb-2">Wali Kelas</span>
+                        <SelectOption
+                            value={selectHomeRoomTeacher}
+                            required
+                            name="home_room_teacher_id"
+                            onChange={(val: any) => setSelectHomeRoomTeacher(val)}
+                            isLoading={loading}
+                            placeholder={'Pilih Wali Kelas'}
+                            options={homeRoomTeacher} />
+                    </div>
+                    <div>
                         <span className="block mb-2">Kelas</span>
                         <SelectOption
                             value={selectClass}
                             required
-                            name="no_class"
+                            name="no_class_id"
                             onChange={(val: any) => setSelectedClass(val)}
-                            isLoading={isLoadingClass}
+                            isLoading={loadingClass}
                             placeholder={'Pilih Kelas'}
                             options={classes} />
                     </div>

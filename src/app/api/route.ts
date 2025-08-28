@@ -1,14 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { NextRequest, NextResponse } from "next/server";
-import { AppDataSource } from "../../../lib/db";
+import { NextRequest, NextResponse } from "next/server";;
 
 export async function GET(__: NextRequest){
-
-    if(!AppDataSource.isInitialized){
-        await AppDataSource.initialize();
-    }
-
     return NextResponse.json({ messages: "Hello World "});
 }

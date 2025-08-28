@@ -3,8 +3,10 @@
 import Card from "@components/card";
 import { Tabs } from "@components/tabs";
 import React from "react";
-import TableSiswa from "./components/table.siswa";
+import TableSiswa from "./components/component.table.siswa";
 import GuruWali from "./components/component.guru.wali";
+import GuruBk from "./components/component.guru.bk";
+import GuruWaliKelas from "./components/component.guru.walikelas";
 
 const UserManagement: React.FC = () => {
 
@@ -21,8 +23,8 @@ const UserManagement: React.FC = () => {
                         tabs={[
                             { label: "Data Siswa", content: <TableSiswa/> },
                             { label: "Guru Wali", content: <GuruWali/> },
-                            { label: "Guru BK", content: <div>Settings page</div> },
-                            { label: "Wali Kelas", content: <div>Wali Kelas</div>}
+                            { label: "Guru BK", content: <GuruBk/> },
+                            { label: "Wali Kelas", content: <GuruWaliKelas/>}
                         ]}
                     />
                 </Card>

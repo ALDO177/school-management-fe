@@ -25,21 +25,21 @@ export async function middleware(request: NextRequest) {
     }
 
     //pathname protected api
-    if (pathname.startsWith('/api/protected')) {
+    // if (pathname.startsWith('/api/protected')) {
 
-        if (token) {
-            return NextResponse.next();
-        };
+    //     if (token) {
+    //         return NextResponse.next();
+    //     };
 
-        const token_with_header = request.headers.get("Authorization")?.replace("Bearer", "");
+    //     const token_with_header = request.headers.get("Authorization")?.replace("Bearer", "");
         
-        if (token_with_header) {
-           return NextResponse.next();
-        };
+    //     if (token_with_header) {
+    //        return NextResponse.next();
+    //     };
 
-        const result = instancesResponse({ httpCode: 401, message: "Unauthorized", error: true, data: null })
-        return NextResponse.json(result, { status: 401 })
-    }
+    //     const result = instancesResponse({ httpCode: 401, message: "Unauthorized", error: true, data: null })
+    //     return NextResponse.json(result, { status: 401 })
+    // }
 
     return NextResponse.next();
 };
