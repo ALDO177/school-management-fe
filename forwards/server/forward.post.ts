@@ -3,9 +3,11 @@
 import axios from "axios"
 import { cookies } from "next/headers";
 
+const APP_URL = process.env.VERCEL_URL || process.env.URL_DOMAIN;
+
 export const forwardLoginPost = async (path: string, body: any, params?: Record<string, string>) => {
     try {
-        const post = await axios.post(`${process.env.URL_DOMAIN}/api/${path}`, body, { params, timeout: 300000 });
+        const post = await axios.post(`${APP_URL}/api/${path}`, body, { params, timeout: 300000 });
         return post.data;
 
     } catch (err: any) {
@@ -109,7 +111,7 @@ export const forwardPost = async (path: string, body: any, params?: Record<strin
 
     try {
         const post = await axios.post(
-            `${process.env.URL_DOMAIN}/api/${path}`,
+            `${APP_URL}/api/${path}`,
             body,
             { params, timeout: 300000, headers: { Authorization: `Bearer ${token}` } });
         return post.data;
@@ -127,7 +129,7 @@ export const forwardPatch = async (path: string, body: any, params?: Record<stri
 
     try {
         const post = await axios.patch(
-            `${process.env.URL_DOMAIN}/api/${path}`,
+            `${APP_URL}/api/${path}`,
             body,
             { params, timeout: 300000, headers: { Authorization: `Bearer ${token}` } });
         return post.data;
