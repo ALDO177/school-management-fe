@@ -3,7 +3,7 @@
 import axios from "axios"
 import { cookies } from "next/headers";
 
-const APP_URL = process.env.VERCEL_URL || process.env.URL_DOMAIN;
+const APP_URL = process.env.URL_DOMAIN;
 
 export const forwardLoginPost = async (path: string, body: any, params?: Record<string, string>) => {
     try {
