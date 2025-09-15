@@ -5,7 +5,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 
     try {
         const { id } = await params;
-        const result = await forwardApiGet(`mentoring-schedule/days/${id}`);
+        const result = await forwardApiGet(`mentoring-schedule/days/get-by-id/${id}`);
         return NextResponse.json(result);
 
     } catch (err: any) {

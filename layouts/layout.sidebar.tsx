@@ -2,7 +2,7 @@ import SidebarItem from "@components/sidebar/sidebar.item";
 import classNames from "classnames";
 import { SidebarProps } from "../types/sidebar";
 import { FaHome } from "react-icons/fa";
-import { FaCalendar, FaChartLine, FaDatabase, FaUsersGear } from "react-icons/fa6";
+import { FaBookJournalWhills, FaCalendar, FaChartLine, FaDatabase, FaUsersGear } from "react-icons/fa6";
 
 export interface PropsLayoutSidebar {
 
@@ -14,6 +14,18 @@ const itemDataSidebar: Array<SidebarProps> = [
         label: "Dashboard",
         icon: <FaHome size={18} />,
         to: "/dashboard"
+    },
+    {
+        id: "10-2891",
+        label: "Auth",
+        icon: <FaUsersGear size={18}/>,
+        to: "/auth"
+    },
+     {
+        id: "1289h-qwjr",
+        label: "Data Reference",
+        icon: <FaBookJournalWhills size={18}/>,
+        to: "/data-reference"
     },
     {
         id: "2",

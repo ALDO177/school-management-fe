@@ -4,16 +4,18 @@ import useHomeRoomTeacher from "@/hooks/useHomeRoomTeacher";
 import useSessionSchedule from "@/hooks/useSessionSchedule";
 import Card from "@components/card";
 import InputText from "@components/inputext";
-import SelectOption from "@components/select";
+import SelectOption, { AsyncSelectOptions } from "@components/select";
 import { DashboardContext } from "@context/dashboard.context";
+import { forwardGetApiClient } from "@forwards/client/forward";
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { BsPlus } from "react-icons/bs";
+import { toast } from "react-toastify";
 
 interface PropsSchdule {
-    data    ?: any;
-    onClose ?: () => void;
-    mutate  ?: () => void;
+    data?: any;
+    onClose?: () => void;
+    mutate?: () => void;
 };
 
 interface Option {
@@ -31,9 +33,10 @@ interface FormData {
     "home_room_assigment_ids": any
 }
 
-const ScheduleManagement: React.FC<PropsSchdule> = ({ data, mutate,onClose }) => {
+const ScheduleManagement: React.FC<PropsSchdule> = ({ data, mutate, onClose }) => {
 
     const { refModal } = useContext(DashboardContext);
+    console.log(data);
 
     const FormPage = () => {
 
@@ -48,7 +51,6 @@ const ScheduleManagement: React.FC<PropsSchdule> = ({ data, mutate,onClose }) =>
         const { sessions, loadingSession } = useSessionSchedule();
         const [selectedSession, setSelectedSession] = useState();
 
-        const { homeRoomTeacher, loading } = useHomeRoomTeacher();
         const [selectedHomeTeacher, setSelectedHomeTeacher] = useState<Option[]>([]);
 
         const [form, setForm] = useState<Partial<FormData>>({
@@ -67,17 +69,29 @@ const ScheduleManagement: React.FC<PropsSchdule> = ({ data, mutate,onClose }) =>
 
             try {
                 await axios.post('/api/protected/schedules', form, { timeout: 300000 });
+                toast.success("Tambah Sesi Berhasil", { autoClose: 3500 })
                 setIsLoading(false);
                 onClose?.();
                 mutate?.();
             } catch (err: any) {
-                console.log(err)
+                refModal?.current?.close()
+                toast.error("Terjadi Kesalahan Saat Tambah Sessi Schedule!", { autoClose: 3500 })
                 setIsLoading(false);
             }
         }
 
         const onChangeForm = (key: keyof FormData, value: any) => {
             setForm((prevForm) => ({ ...prevForm, [key]: value }))
+        }
+
+        const loadOptions = async (inputValue: any) => {
+            try {
+                const { data } = await forwardGetApiClient('protected/user-management/home-room-teacher/master', { search: inputValue, limit: "20" } );
+                return data?.items;
+
+            } catch (err: any) {
+                console.log(err?.response?.data)
+            }
         }
 
         return (
@@ -149,18 +163,18 @@ const ScheduleManagement: React.FC<PropsSchdule> = ({ data, mutate,onClose }) =>
                     </div>
                     <div>
                         <span className="block mb-2">Pendamping</span>
-                        <SelectOption
+                        <AsyncSelectOptions
+                            cacheOptions
+                            defaultOptions
+                            isMulti
+                            value={selectedHomeTeacher}
                             placeholder="Pilih Pendamping"
                             className="w-full"
-                            name="home_room_assigment_ids"
-                            isLoading={loading}
-                            options={homeRoomTeacher}
-                            value={selectedHomeTeacher}
                             onChange={(val: any) => {
                                 setSelectedHomeTeacher(val);
                                 onChangeForm("home_room_assigment_ids", val.map((data: Option) => data.value))
                             }}
-                            isMulti
+                            loadOptions={loadOptions}
                         />
                     </div>
 
@@ -203,7 +217,7 @@ const ScheduleManagement: React.FC<PropsSchdule> = ({ data, mutate,onClose }) =>
                 <div className="px-5 py-6 w-full rounded-lg border border-gray-300">
                     <h1 className="text-xl mb-3 font-semibold text-gray-500">Sesi Aktif Hari ini</h1>
                     <div>
-                        <h1 className="text-2xl text-blue-500 font-bold">{data?.total_assigments ?? "0"}</h1>
+                        <h1 className="text-2xl text-blue-500 font-bold">{data?.sessi_today ?? "0"}</h1>
                         <span className="block text-md text-gray-500">Sesi Pendampingan</span>
                     </div>
                 </div>
@@ -215,7 +229,7 @@ const ScheduleManagement: React.FC<PropsSchdule> = ({ data, mutate,onClose }) =>
                     </div>
                 </div>
                 <div className="px-5 py-6 w-full rounded-lg border border-gray-300">
-                    <h1 className="text-xl mb-3 font-semibold text-gray-500">Sesi Aktif Hari ini</h1>
+                    <h1 className="text-xl mb-3 font-semibold text-gray-500">Siswa Terlayani</h1>
                     <div>
                         <h1 className="text-2xl text-purple-500 font-bold">45</h1>
                         <span className="block text-md text-gray-500">Siswa Minggu Ini</span>

@@ -18,18 +18,19 @@ const WeekSchedule: React.FC = () => {
     const { refModal } = useContext(DashboardContext)
 
     const date  = new Date();
-    const today = date.getDay() + 1;
+    const today = date.getDay() + 1 ;
 
     const { data, isLoading, mutate } = useSwrAxios('/api/protected/days');
 
     useEffect(() => {
         if(data && !isLoading){
-            const todayDataFilter  = data?.data?.items?.find((data: any) => data.id === today);
-            const total_assigments = todayDataFilter?.items?.reduce((acc: any, item: any) => {
+            const todayDataFilter  = data?.data?.find((data: any) => data.id === today);
+            const teacher_total_active = todayDataFilter?.schedules?.reduce((acc: any, item: any) => {
                 return acc + Number(item?.total_assigments)
             }, 0) ?? "0";
 
-            setToday((prev) => ({ total_assigments, teacher_total_active: data?.data?.teacher_total_active}))
+            const sessi_today = todayDataFilter?.schedules?.length ?? 0;
+            setToday((prev) => ({ sessi_today, teacher_total_active }))
         }
     }, [data, isLoading]);
 
@@ -63,7 +64,6 @@ const WeekSchedule: React.FC = () => {
                         </>
                     )
                 }
-
                 {
                     data?.data?.map((week: any, idx: number) => (
                         <div key={idx} className="cursor-pointer" onClick={() => onModalOpen(week)}>

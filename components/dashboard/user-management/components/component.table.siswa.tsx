@@ -12,10 +12,13 @@ import { toTitleCase } from "@lib/slugh";
 import { FaTriangleExclamation } from "react-icons/fa6";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Badge from "@components/badge";
+import { forwardGetApiClient } from "@forwards/client/forward";
 
 const TableSiswa: React.FC = () => {
 
     const { refModal } = useContext(DashboardContext);
+
     const [query, setQuery] = useState({
         page: "1",
         limit: "5",
@@ -34,12 +37,12 @@ const TableSiswa: React.FC = () => {
     };
 
     const onModaEdit = async (row: any) => {
-         refModal?.current?.options({
+        refModal?.current?.options({
             cardclassName: "w-[35rem] max-md:w-full bg-white",
             title: `Edit Data Siswa ${row?.nama}`,
-            content:(
-                <FormSiswa 
-                    mutate={mutate} 
+            content: (
+                <FormSiswa
+                    mutate={mutate}
                     isEdit
                     data={row}
                     toogleClose={refModal.current.close} />
@@ -60,21 +63,21 @@ const TableSiswa: React.FC = () => {
             case "tidak aktif":
                 return (
                     <div className="text-center font-semibold text-white px-2 py-1 max-w-max rounded-full bg-red-500">
-                        { toTitleCase(status) }
+                        {toTitleCase(status)}
                     </div>
                 )
 
             case "perlu perhatian":
                 return (
                     <div className="text-center font-semibold text-white px-2 py-1 max-w-max rounded-full bg-orange-500">
-                        { toTitleCase(status) }
+                        {toTitleCase(status)}
                     </div>
                 )
 
             default:
                 return (
                     <div className="px-3 p-2 rounded-lg bg-red-500/30">
-                        { toTitleCase(status) }
+                        {toTitleCase(status)}
                     </div>
                 )
         }
@@ -127,6 +130,20 @@ const TableSiswa: React.FC = () => {
         refModal?.current?.open();
     };
 
+    const onHandleConnectAccount = async (id: number) => {
+        const promiseConnect = forwardGetApiClient(`protected/user-management/student/connect-account/${id}`);
+        await toast.promise(
+            promiseConnect,
+            {
+                pending: 'Prosess Sedang Berlangsung',
+                success: 'Proses Berhasil',
+                error: 'Proses Gagal'
+            }
+        )
+
+        await mutate();
+    }
+
     return (
         <React.Fragment>
             <div className="flex justify-between items-center w-full">
@@ -148,11 +165,26 @@ const TableSiswa: React.FC = () => {
             </div>
 
             <Table
-
                 columns={[
                     { key: "nama", label: "Name" },
                     { key: "nisn", label: "Nisn" },
                     { key: "classRoom.class_name", label: "Kelas" },
+                    {
+                        key: "user.id", label: "IsAccount", render: (value, row: any) => {
+                            return (
+                                <>
+                                    {
+                                        value
+                                            ? <Badge label="Terhubung" variant="success" />
+                                            :
+                                            <button className="cursor-pointer" onClick={() => onHandleConnectAccount(row?.id)}>
+                                                <Badge label="Disconnect" variant="danger" />
+                                            </button>
+                                    }
+                                </>
+                            )
+                        }
+                    },
                     { key: "home_room_teacher.fullname", label: "Guru Wali" },
                     {
                         key: "status", label: "Status", render(value, row) {

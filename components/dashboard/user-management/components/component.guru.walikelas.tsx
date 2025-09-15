@@ -9,6 +9,8 @@ import { FaTriangleExclamation } from "react-icons/fa6";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Pagination } from "@components/pagination";
+import Badge from "@components/badge";
+import { forwardGetApiClient } from "@forwards/client/forward";
 
 const GuruWaliKelas: React.FC = () => {
 
@@ -90,7 +92,22 @@ const GuruWaliKelas: React.FC = () => {
     };
 
     const onPageChange = (page: number) => {
-        setQuery((prev) => ({ ...prev, page: String(page)}))
+        setQuery((prev) => ({ ...prev, page: String(page) }))
+    };
+
+    const onHandleConnectAccount = async (id: number) => {
+        const promiseConnect = forwardGetApiClient(`protected/user-management/home-room-teacher/connect-account/${id}`);
+        await toast.promise(
+            promiseConnect,
+            {
+                pending: 'Prosess Sedang Berlangsung',
+                success: 'Proses Berhasil',
+                error: 'Proses Gagal'
+            },
+            { position: "bottom-right"}
+        )
+
+        await mutate();
     }
 
     return (
@@ -125,6 +142,22 @@ const GuruWaliKelas: React.FC = () => {
                     {
                         key: "classRoom.class_name",
                         label: "Kelas"
+                    },
+                    {
+                        key: "user.id", label: "IsAccount", render: (value, row: any) => {
+                            return (
+                                <>
+                                    {
+                                        value
+                                            ? <Badge label="Terhubung" variant="success" />
+                                            :
+                                            <button className="cursor-pointer" onClick={() => onHandleConnectAccount(row?.id)}>
+                                                <Badge label="Disconnect" variant="danger" />
+                                            </button>
+                                    }
+                                </>
+                            )
+                        }
                     },
                     {
                         key: "total_student",

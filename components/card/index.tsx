@@ -7,9 +7,10 @@ export interface PropsCard {
     children?: React.ReactNode;
     headerTemplate?: () => React.ReactNode | string;
     footerTemplate?: () => React.ReactNode | string;
+    style?: React.CSSProperties;
 };
 
-const Card: React.FC<PropsCard> = ({ children, className, headerTemplate, bodyClassName, footerTemplate }) => {
+const Card: React.FC<PropsCard> = ({ children, className, headerTemplate, bodyClassName, footerTemplate, style }) => {
 
     const classNamesCard = classNames({}, className);
 
@@ -58,7 +59,7 @@ const Card: React.FC<PropsCard> = ({ children, className, headerTemplate, bodyCl
     };
 
     return (
-        <div className={`min-w-10 shadow-xl rounded-lg ${classNamesCard}`}>
+        <div className={`min-w-10 shadow-xl rounded-lg ${classNamesCard}`} style={style}>
             {
                 headerCard && (
                     <div id="header">

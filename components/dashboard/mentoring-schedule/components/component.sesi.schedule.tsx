@@ -16,8 +16,8 @@ const SesiSchedule: React.FC = () => {
     const { refModal } = useContext(DashboardContext);
 
     const onDelete = async (id: number) => {
-        try {
 
+        try {
             const deleted = axios.delete('/api/protected/schedules', { data: [{ id }], timeout: 300000 });
             await toast.promise(
                 deleted,
@@ -38,9 +38,10 @@ const SesiSchedule: React.FC = () => {
 
     const onModalDelete = (row: any) => {
 
+        console.log(row)
         refModal?.current?.options({
             cardclassName: "bg-white w-[30rem]",
-            title: `Hapus Data Wali ${row?.fullname}`,
+            title: `Hapus Sesi Schedule`,
             content: (
                 <>
                     <div className={"flex items-center space-x-3 w-full"}>
@@ -53,7 +54,7 @@ const SesiSchedule: React.FC = () => {
                             className="cursor-pointer text-white p-2 bg-red-500 hover:bg-red-600 rounded-md">
                             Batalkan
                         </button>
-                        <button onClick={() => onDelete(row?.schedule_id)} className="cursor-pointer p-2 bg-green-500 hover:bg-green-600 text-white rounded-md">
+                        <button onClick={() => onDelete(row?.id)} className="cursor-pointer p-2 bg-green-500 hover:bg-green-600 text-white rounded-md">
                             Hapus
                         </button>
                     </div>
@@ -97,13 +98,19 @@ const SesiSchedule: React.FC = () => {
 
                             <ul className="list-none mt-3">
                                 {
+                                    val?.schedules?.length < 1 && (
+                                        <>
+                                            <h1 className="text-center font-semibold text-lg text-slate-500 my-10">Tidak Ada Sesi...</h1>
+                                        </>
+                                    )
+                                }
+                                {
                                     val?.schedules?.map((data: any, idx: number) => (
                                         <li key={idx} className="px-3 py-4 shadow flex justify-between items-center bg-white min-h-[5rem] rounded-lg w-full mb-2">
                                             <div>
                                                 <h1 className="font-semibold text-md">{data?.day?.name} {" "} {val?.session_name} </h1>
                                                 <span className="block mt-1 text-gray-500">{data?.start_time} - {data?.end_time} WIB</span>
                                             </div>
-
                                             <div className="flex space-x-3 items-center">
                                                 <div className="flex px-3 py-1 text-sky-400 justify-center items-center rounded-full bg-sky-100">
                                                     {data?.status}

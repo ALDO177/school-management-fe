@@ -1,9 +1,11 @@
 'use client'
 import classNames from 'classnames';
-import Select, { Props as ReactSelectProps, ClassNamesConfig, StylesConfig } from 'react-select'
+import React from 'react';
+import Select, { Props as ReactSelectProps, ClassNamesConfig, StylesConfig, GroupBase } from 'react-select';
+import AsyncSelect, { type AsyncProps } from 'react-select/async';
 
 export interface SelectOptionProps extends ReactSelectProps {
-    sizeMode ?: "md" | "sm" | "lg"
+    sizeMode?: "md" | "sm" | "lg"
 };
 
 const customClassNames: ClassNamesConfig = {
@@ -21,9 +23,9 @@ const customClassNames: ClassNamesConfig = {
 const SelectOption: React.FC<SelectOptionProps> = ({ sizeMode = "md", ...props }) => {
 
     const classStyleOption = classNames({
-        "10px" : sizeMode === "md",
-        "14px" : sizeMode === "lg",
-        "6px" : sizeMode === "sm"
+        "10px": sizeMode === "md",
+        "14px": sizeMode === "lg",
+        "6px": sizeMode === "sm"
     })
 
     const stylesConfig: StylesConfig = {
@@ -46,3 +48,35 @@ const SelectOption: React.FC<SelectOptionProps> = ({ sizeMode = "md", ...props }
 };
 
 export default SelectOption;
+
+
+export interface AsyncSelectOptionProps<Option = unknown, IsMulti extends boolean = false, Group extends GroupBase<Option> = any> extends AsyncProps<Option, IsMulti, Group> {
+    sizeMode?: "md" | "sm" | "lg";
+};
+
+export const AsyncSelectOptions: React.FC<AsyncSelectOptionProps<SelectOptionProps, boolean>> = ({ sizeMode = "md", ...props }) => {
+
+    const classStyleOption = classNames({
+        "10px": sizeMode === "md",
+        "14px": sizeMode === "lg",
+        "6px": sizeMode === "sm"
+    })
+
+    const stylesConfig: StylesConfig = {
+        control(base, props) {
+            return {
+                ...base,
+                borderRadius: 9,
+                padding: classStyleOption
+            }
+        },
+    }
+
+    return (
+        <AsyncSelect
+            {...props}
+            styles={stylesConfig as any}
+            classNames={customClassNames as any}
+        />
+    )
+}
