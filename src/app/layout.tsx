@@ -18,19 +18,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "System Management Sekolah",
+  title: "Sistem Manajemen Sekolah SMADA",
+  description: "Sistem Manajemen Sekolah SMADA Samarinda",
+  icons: [
+    { rel: "icon", url: "/logo-sma.ico", type: "image/png", sizes: "32x32" },
+  ],
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <TopLoader/>
+        <TopLoader />
         <SkeletonTheme>
           {children}
         </SkeletonTheme>

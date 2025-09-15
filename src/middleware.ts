@@ -24,6 +24,15 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/dashboard', request.url));
     }
 
+    if (pathname === "/" && token) {
+        return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
+
+    if (pathname === "/" && !token) {
+        return NextResponse.redirect(new URL('/login', request.url));
+    }
+
+
     //pathname protected api
     // if (pathname.startsWith('/api/protected')) {
 
@@ -32,7 +41,7 @@ export async function middleware(request: NextRequest) {
     //     };
 
     //     const token_with_header = request.headers.get("Authorization")?.replace("Bearer", "");
-        
+
     //     if (token_with_header) {
     //        return NextResponse.next();
     //     };
